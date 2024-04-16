@@ -1,0 +1,680 @@
+[
+    {
+        "type": "constructor",
+        "stateMutability": "nonpayable",
+        "inputs": [
+            {
+                "type": "address",
+                "name": "engine_",
+                "internalType": "address"
+            },
+            {
+                "type": "address",
+                "name": "oracle_",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "ExistedSymbolId",
+        "inputs": [
+            {
+                "type": "bytes32",
+                "name": "symbolId",
+                "internalType": "bytes32"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "IndexPriceExpired",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "InvalidCategory",
+        "inputs": [
+            {
+                "type": "bytes32",
+                "name": "symbolId",
+                "internalType": "bytes32"
+            },
+            {
+                "type": "uint8",
+                "name": "category",
+                "internalType": "uint8"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "InvalidSymbolId",
+        "inputs": [
+            {
+                "type": "bytes32",
+                "name": "symbolId",
+                "internalType": "bytes32"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "InvalidTradeParams",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "OnlyAdmin",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "OnlyEngine",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "StringExceeds31Bytes",
+        "inputs": [
+            {
+                "type": "string",
+                "name": "value",
+                "internalType": "string"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "VolatilityExpired",
+        "inputs": []
+    },
+    {
+        "type": "event",
+        "name": "NewAdmin",
+        "inputs": [
+            {
+                "type": "address",
+                "name": "newAdmin",
+                "internalType": "address",
+                "indexed": false
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "NewImplementation",
+        "inputs": [
+            {
+                "type": "address",
+                "name": "newImplementation",
+                "internalType": "address",
+                "indexed": false
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [],
+        "name": "addSymbol",
+        "inputs": [
+            {
+                "type": "string",
+                "name": "symbol",
+                "internalType": "string"
+            },
+            {
+                "type": "uint8",
+                "name": "category",
+                "internalType": "uint8"
+            },
+            {
+                "type": "bytes32[]",
+                "name": "p",
+                "internalType": "bytes32[]"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "address",
+                "name": "",
+                "internalType": "address"
+            }
+        ],
+        "name": "admin",
+        "inputs": []
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "address",
+                "name": "",
+                "internalType": "address"
+            }
+        ],
+        "name": "engine",
+        "inputs": []
+    },
+    {
+        "type": "function",
+        "stateMutability": "pure",
+        "outputs": [
+            {
+                "type": "uint8",
+                "name": "",
+                "internalType": "uint8"
+            }
+        ],
+        "name": "getCategory",
+        "inputs": [
+            {
+                "type": "bytes32",
+                "name": "symbolId",
+                "internalType": "bytes32"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "uint256[]",
+                "name": "",
+                "internalType": "uint256[]"
+            }
+        ],
+        "name": "getPTokenIdsOfSymbol",
+        "inputs": [
+            {
+                "type": "bytes32",
+                "name": "symbolId",
+                "internalType": "bytes32"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "bytes32[]",
+                "name": "pos",
+                "internalType": "bytes32[]"
+            }
+        ],
+        "name": "getPosition",
+        "inputs": [
+            {
+                "type": "bytes32",
+                "name": "symbolId",
+                "internalType": "bytes32"
+            },
+            {
+                "type": "uint256",
+                "name": "pTokenId",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "bytes32[]",
+                "name": "s",
+                "internalType": "bytes32[]"
+            }
+        ],
+        "name": "getState",
+        "inputs": [
+            {
+                "type": "bytes32",
+                "name": "symbolId",
+                "internalType": "bytes32"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "pure",
+        "outputs": [
+            {
+                "type": "bytes32",
+                "name": "symbolId",
+                "internalType": "bytes32"
+            }
+        ],
+        "name": "getSymbolId",
+        "inputs": [
+            {
+                "type": "string",
+                "name": "symbol",
+                "internalType": "string"
+            },
+            {
+                "type": "uint8",
+                "name": "category",
+                "internalType": "uint8"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "bytes32[]",
+                "name": "",
+                "internalType": "bytes32[]"
+            }
+        ],
+        "name": "getSymbolIds",
+        "inputs": []
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "bytes32[]",
+                "name": "",
+                "internalType": "bytes32[]"
+            }
+        ],
+        "name": "getSymbolIdsOfPToken",
+        "inputs": [
+            {
+                "type": "uint256",
+                "name": "pTokenId",
+                "internalType": "uint256"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "address",
+                "name": "",
+                "internalType": "address"
+            }
+        ],
+        "name": "implementation",
+        "inputs": []
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "int256",
+                "name": "",
+                "internalType": "int256"
+            }
+        ],
+        "name": "initialMarginRequired",
+        "inputs": []
+    },
+    {
+        "type": "function",
+        "stateMutability": "view",
+        "outputs": [
+            {
+                "type": "address",
+                "name": "",
+                "internalType": "address"
+            }
+        ],
+        "name": "oracle",
+        "inputs": []
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [],
+        "name": "setAdmin",
+        "inputs": [
+            {
+                "type": "address",
+                "name": "newAdmin",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [],
+        "name": "setImplementation",
+        "inputs": [
+            {
+                "type": "address",
+                "name": "newImplementation",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [],
+        "name": "setParameterOfId",
+        "inputs": [
+            {
+                "type": "string",
+                "name": "symbol",
+                "internalType": "string"
+            },
+            {
+                "type": "uint8",
+                "name": "category",
+                "internalType": "uint8"
+            },
+            {
+                "type": "uint8",
+                "name": "parameterId",
+                "internalType": "uint8"
+            },
+            {
+                "type": "bytes32",
+                "name": "value",
+                "internalType": "bytes32"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [],
+        "name": "setParameterOfIdForCategory",
+        "inputs": [
+            {
+                "type": "uint8",
+                "name": "category",
+                "internalType": "uint8"
+            },
+            {
+                "type": "uint8",
+                "name": "parameterId",
+                "internalType": "uint8"
+            },
+            {
+                "type": "bytes32",
+                "name": "value",
+                "internalType": "bytes32"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [
+            {
+                "type": "tuple",
+                "name": "ss",
+                "internalType": "struct ISymbolManager.SettlementOnAddLiquidity",
+                "components": [
+                    {
+                        "type": "int256",
+                        "name": "funding",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "diffTradersPnl",
+                        "internalType": "int256"
+                    }
+                ]
+            }
+        ],
+        "name": "settleSymbolsOnAddLiquidity",
+        "inputs": [
+            {
+                "type": "int256",
+                "name": "liquidity",
+                "internalType": "int256"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [
+            {
+                "type": "tuple",
+                "name": "ss",
+                "internalType": "struct ISymbolManager.SettlementOnLiquidate",
+                "components": [
+                    {
+                        "type": "int256",
+                        "name": "funding",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "diffTradersPnl",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "traderFunding",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "traderPnl",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "traderMaintenanceMarginRequired",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "tradeRealizedCost",
+                        "internalType": "int256"
+                    }
+                ]
+            }
+        ],
+        "name": "settleSymbolsOnLiquidate",
+        "inputs": [
+            {
+                "type": "uint256",
+                "name": "pTokenId",
+                "internalType": "uint256"
+            },
+            {
+                "type": "int256",
+                "name": "liquidity",
+                "internalType": "int256"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [
+            {
+                "type": "tuple",
+                "name": "ss",
+                "internalType": "struct ISymbolManager.SettlementOnRemoveLiquidity",
+                "components": [
+                    {
+                        "type": "int256",
+                        "name": "funding",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "diffTradersPnl",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "initialMarginRequired",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "removeLiquidityPenalty",
+                        "internalType": "int256"
+                    }
+                ]
+            }
+        ],
+        "name": "settleSymbolsOnRemoveLiquidity",
+        "inputs": [
+            {
+                "type": "int256",
+                "name": "liquidity",
+                "internalType": "int256"
+            },
+            {
+                "type": "int256",
+                "name": "removedLiquidity",
+                "internalType": "int256"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [
+            {
+                "type": "tuple",
+                "name": "ss",
+                "internalType": "struct ISymbolManager.SettlementOnRemoveMargin",
+                "components": [
+                    {
+                        "type": "int256",
+                        "name": "funding",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "diffTradersPnl",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "traderFunding",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "traderPnl",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "traderInitialMarginRequired",
+                        "internalType": "int256"
+                    }
+                ]
+            }
+        ],
+        "name": "settleSymbolsOnRemoveMargin",
+        "inputs": [
+            {
+                "type": "uint256",
+                "name": "pTokenId",
+                "internalType": "uint256"
+            },
+            {
+                "type": "int256",
+                "name": "liquidity",
+                "internalType": "int256"
+            }
+        ]
+    },
+    {
+        "type": "function",
+        "stateMutability": "nonpayable",
+        "outputs": [
+            {
+                "type": "tuple",
+                "name": "ss",
+                "internalType": "struct ISymbolManager.SettlementOnTrade",
+                "components": [
+                    {
+                        "type": "int256",
+                        "name": "funding",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "diffTradersPnl",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "initialMarginRequired",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "traderFunding",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "traderPnl",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "traderInitialMarginRequired",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "tradeFee",
+                        "internalType": "int256"
+                    },
+                    {
+                        "type": "int256",
+                        "name": "tradeRealizedCost",
+                        "internalType": "int256"
+                    }
+                ]
+            }
+        ],
+        "name": "settleSymbolsOnTrade",
+        "inputs": [
+            {
+                "type": "bytes32",
+                "name": "symbolId",
+                "internalType": "bytes32"
+            },
+            {
+                "type": "uint256",
+                "name": "pTokenId",
+                "internalType": "uint256"
+            },
+            {
+                "type": "int256",
+                "name": "liquidity",
+                "internalType": "int256"
+            },
+            {
+                "type": "int256[]",
+                "name": "tradeParams",
+                "internalType": "int256[]"
+            }
+        ]
+    }
+]
