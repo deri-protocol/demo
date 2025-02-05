@@ -20,7 +20,12 @@ ACCOUNT_ADDRESS = ""
 # Private key for signing transactions from the account
 ACCOUNT_PRIVATE = ""
 
-# Address of the base token used as margin (could be ETH_ADDRESS or another ERC20 token supported)
+# Address of the base token used as margin
+# Could be ETH_ADDRESS(0x0000000000000000000000000000000000000001) or another ERC20 token supported
+# e.g.
+# USDC token address of arbitrium: 0xaf88d065e77c8cc2239327c5edb3a432268e5831
+# USDC token address of linea: 0x176211869ca2b568f2a7d4ee941e073a821ee1ff
+# USDC token address of base: 0x833589fcd6edb6e08f4c7c32d4f71b54bda02913
 BASE_TOKEN_ADDRESS = ""
 
 # Address of the Gateway contract
@@ -182,10 +187,15 @@ if __name__ == "__main__":
         trade_volume * ONE > min_trade_volume
     ), "Trade volume is below the minimum allowed"
 
+    # Ensure that the trade volume is an integer multiple of min_trade_volume
+    assert (
+        trade_volume * ONE % min_trade_volume == 0
+    ), "Trade volume must be an integer multiple of min_trade_volume"
+
     # Set the price limit for the trade
     # If going long (buying), set price_limit higher than the current market price
     # If going short (selling), set price_limit lower than the current market price
-    # The exact value depends on your risk tolerance and market analysis
+    # The exact value depends on your risk tolerance and market analysis, with suggestions of being 3% or 5% away from the market price.
     price_limit = 110000
     pre_position = check_position(symbol_id, p_token_id)
     request_trade(p_token_id, symbol_id, trade_volume, price_limit)
