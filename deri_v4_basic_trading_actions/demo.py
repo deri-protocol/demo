@@ -160,7 +160,7 @@ if __name__ == "__main__":
     # Approve the Gateway contract to spend the base token on behalf of the account
     approve()
 
-    # Add margin to open or increase a position. Here, 0 is used for a new position or existing one with ID 0
+    # Add margin to open or increase a position. Here, 0 is used for a new position
     # BASE_TOKEN_ADDRESS specifies which token is used for margin (could be ETH or another token)
     # 0.001 is the amount of margin added
     receipt = request_add_margin(0, BASE_TOKEN_ADDRESS, 0.001)
