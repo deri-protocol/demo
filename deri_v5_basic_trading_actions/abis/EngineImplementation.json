@@ -1,0 +1,46 @@
+[
+  {
+    "type": "function",
+    "name": "getTdState",
+    "stateMutability": "view",
+    "inputs": [{ "name": "pTokenId", "type": "uint256" }],
+    "outputs": [
+      {
+        "name": "s",
+        "type": "tuple",
+        "components": [
+          { "name": "requestId", "type": "uint256" },
+          { "name": "account", "type": "bytes32" },
+          { "name": "bTokenId", "type": "bytes32" },
+          { "name": "bAmount", "type": "uint256" },
+          { "name": "b0Amount", "type": "int256" },
+          { "name": "cumulativePnlOnEngine", "type": "int256" },
+          { "name": "cumulativePnlOnEngineLastSyncedToGateway", "type": "int256" },
+          { "name": "liquidated", "type": "bool" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "trade",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      { "name": "pTokenId", "type": "uint256" },
+      { "name": "symbolId", "type": "bytes32" },
+      { "name": "tradeParams", "type": "int256[]" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "executeRemoveMargin",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      { "name": "pTokenId", "type": "uint256" },
+      { "name": "bTokenId", "type": "bytes32" },
+      { "name": "removeBAmount", "type": "uint256" }
+    ],
+    "outputs": []
+  }
+]

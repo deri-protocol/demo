@@ -1,0 +1,100 @@
+[
+  {
+    "type": "function",
+    "name": "requestAddMargin",
+    "stateMutability": "payable",
+    "inputs": [
+      { "name": "pTokenId", "type": "uint256" },
+      { "name": "bToken", "type": "address" },
+      { "name": "bAmount", "type": "uint256" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "requestAddMargin",
+    "stateMutability": "payable",
+    "inputs": [
+      { "name": "pTokenId", "type": "uint256" },
+      { "name": "bToken", "type": "address" },
+      { "name": "bAmount", "type": "uint256" },
+      { "name": "singlePosition", "type": "bool" }
+    ],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "type": "function",
+    "name": "requestAddMarginAndTrade",
+    "stateMutability": "payable",
+    "inputs": [
+      { "name": "pTokenId", "type": "uint256" },
+      { "name": "bToken", "type": "address" },
+      { "name": "bAmount", "type": "uint256" },
+      { "name": "symbolId", "type": "bytes32" },
+      { "name": "tradeParams", "type": "int256[]" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "requestRemoveMargin",
+    "stateMutability": "payable",
+    "inputs": [
+      { "name": "pTokenId", "type": "uint256" },
+      { "name": "bToken", "type": "address" },
+      { "name": "bAmount", "type": "uint256" }
+    ],
+    "outputs": []
+  },
+  {
+    "anonymous": false,
+    "type": "event",
+    "name": "RequestAddMargin",
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "dTokenInfo",
+        "type": "tuple",
+        "components": [
+          { "name": "requestId", "type": "uint256" },
+          { "name": "account", "type": "address" },
+          { "name": "dTokenId", "type": "uint256" },
+          { "name": "bTokenId", "type": "bytes32" },
+          { "name": "bAmount18", "type": "uint256" },
+          { "name": "b0Amount18", "type": "int256" },
+          { "name": "cumulativePnlOnEngine", "type": "int256" }
+        ]
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "type": "event",
+    "name": "RequestAddMarginAndTrade",
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "dTokenInfo",
+        "type": "tuple",
+        "components": [
+          { "name": "requestId", "type": "uint256" },
+          { "name": "account", "type": "address" },
+          { "name": "dTokenId", "type": "uint256" },
+          { "name": "bTokenId", "type": "bytes32" },
+          { "name": "bAmount18", "type": "uint256" },
+          { "name": "b0Amount18", "type": "int256" },
+          { "name": "cumulativePnlOnEngine", "type": "int256" }
+        ]
+      },
+      {
+        "indexed": false,
+        "name": "tradeInfo",
+        "type": "tuple",
+        "components": [
+          { "name": "symbolId", "type": "bytes32" },
+          { "name": "tradeParams", "type": "int256[]" }
+        ]
+      }
+    ]
+  }
+]

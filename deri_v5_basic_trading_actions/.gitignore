@@ -1,0 +1,4 @@
+.env
+.session_key.json
+.active_ptoken.json
+__pycache__/
