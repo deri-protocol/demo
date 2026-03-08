@@ -1,0 +1,35 @@
+[
+  {
+    "type": "function",
+    "name": "getNonce",
+    "stateMutability": "view",
+    "inputs": [
+      { "name": "sender", "type": "address" },
+      { "name": "key", "type": "uint192" }
+    ],
+    "outputs": [{ "name": "nonce", "type": "uint256" }]
+  },
+  {
+    "type": "function",
+    "name": "getUserOpHash",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "name": "userOp",
+        "type": "tuple",
+        "components": [
+          { "name": "sender", "type": "address" },
+          { "name": "nonce", "type": "uint256" },
+          { "name": "initCode", "type": "bytes" },
+          { "name": "callData", "type": "bytes" },
+          { "name": "accountGasLimits", "type": "bytes32" },
+          { "name": "preVerificationGas", "type": "uint256" },
+          { "name": "gasFees", "type": "bytes32" },
+          { "name": "paymasterAndData", "type": "bytes" },
+          { "name": "signature", "type": "bytes" }
+        ]
+      }
+    ],
+    "outputs": [{ "name": "", "type": "bytes32" }]
+  }
+]

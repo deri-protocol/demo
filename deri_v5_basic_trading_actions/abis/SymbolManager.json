@@ -1,0 +1,19 @@
+[
+  {
+    "type": "function",
+    "name": "getPosition",
+    "stateMutability": "view",
+    "inputs": [
+      { "name": "symbolId", "type": "bytes32" },
+      { "name": "pTokenId", "type": "uint256" }
+    ],
+    "outputs": [{ "name": "pos", "type": "bytes32[]" }]
+  },
+  {
+    "type": "function",
+    "name": "getState",
+    "stateMutability": "view",
+    "inputs": [{ "name": "symbolId", "type": "bytes32" }],
+    "outputs": [{ "name": "s", "type": "bytes32[]" }]
+  }
+]
