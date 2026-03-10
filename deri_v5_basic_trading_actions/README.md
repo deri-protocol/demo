@@ -25,16 +25,15 @@ The dChain trade leg is submitted as a smart-account user operation. The paymast
 
 ## Files
 
-- `demo.py`: the runnable demo
+- `deri_v5_pro_core/`: shared Deri V5 Pro Python library
+- `deri_v5_pro_cli.py`: the main human-facing CLI entrypoint
+- `demo.py`: compatibility shim that forwards to `deri_v5_pro_cli.py`
 - `abis/`: minimal ABIs for the current V5 flow
-- `.env.example`: safe template for the local `.env`
-- `.gitignore`: excludes the local `.env` and runtime state files
-
-Local runtime files generated after setup:
-
 - `.env`: local project configuration for secrets and runtime defaults
+- `.env.example`: safe template for the local `.env`
 - `.session_key.json`: auto-generated local session key for smart-account trading
 - `.active_ptoken.json`: local active `pToken` state for the demo
+- `.gitignore`: excludes the real `.env` and local runtime state files
 
 ## Local `.env`
 
@@ -46,7 +45,7 @@ Recommended setup:
 2. do not put secrets in your shell profile
 3. keep `.env` out of git
 
-Create a local `.env` from `.env.example`, then fill in:
+The checked-in `.env` created here is just a local scaffold with blank secret fields. Fill in:
 
 - `ACCOUNT_ADDRESS`
 - `ACCOUNT_PRIVATE`
@@ -92,6 +91,16 @@ Convenience command:
 
 - `close-position`: reads the current position volume and sends the exact opposite `trade`
 
+## Agent Integration
+
+This folder is now set up to be agent-friendly without relying on hidden assumptions:
+
+- [`AGENTS.md`](./AGENTS.md): repo-local operating rules for agents
+- [`agent_contract.yaml`](./agent_contract.yaml): machine-readable command, signer, and output contract
+- `python deri_v5_pro_cli.py <command> --json`: deterministic structured output for automation
+
+For automated usage, prefer `--json` and parse the response instead of scraping terminal text.
+
 Product model:
 
 - the demo creates or adopts one active `pToken` and then sticks to it
@@ -102,6 +111,13 @@ Product model:
 - `remove-margin` is a dChain smart-account action signed by the EOA owner key
 - `close-position` is not a separate protocol primitive; it is just a convenience wrapper over `trade`
 - follow-up actions default to the active `pToken` instead of requiring `--p-token-id`
+
+Library model:
+
+- `deri_v5_pro_core` is now the shared implementation surface
+- `deri_v5_pro_cli.py` is the main human/debugging CLI entrypoint
+- `demo.py` remains as a compatibility shim for older docs and scripts
+- other Python applications, including TradeClaw, can import `deri_v5_pro_core` directly instead of shelling out to the CLI
 
 ## Typical Pro lifecycle
 
@@ -125,13 +141,13 @@ On the first trade, if `SESSION_KEY_PRIVATE` is not set, the demo generates a lo
 Check account and smart-account status:
 
 ```bash
-python demo.py status
+python deri_v5_pro_cli.py status
 ```
 
 Create the active `pToken` with margin:
 
 ```bash
-python demo.py init-p-token \
+python deri_v5_pro_cli.py init-p-token \
   --zone main \
   --margin-token USDC \
   --margin-amount 10
@@ -140,7 +156,7 @@ python demo.py init-p-token \
 Create the active `pToken` by auto-selecting the pool from a symbol:
 
 ```bash
-python demo.py init-p-token \
+python deri_v5_pro_cli.py init-p-token \
   --symbol BTCUSD \
   --margin-token USDC \
   --margin-amount 10
@@ -149,21 +165,21 @@ python demo.py init-p-token \
 Adopt an existing `pToken` as the active one:
 
 ```bash
-python demo.py init-p-token \
+python deri_v5_pro_cli.py init-p-token \
   --existing-p-token-id 123456789
 ```
 
 Add more margin to the active `pToken`:
 
 ```bash
-python demo.py add-margin \
+python deri_v5_pro_cli.py add-margin \
   --margin-amount 5
 ```
 
 Trade inside the active `pToken`:
 
 ```bash
-python demo.py trade \
+python deri_v5_pro_cli.py trade \
   --symbol BTCUSD \
   --trade-volume 0.0001
 ```
@@ -171,28 +187,28 @@ python demo.py trade \
 Close that position:
 
 ```bash
-python demo.py close-position \
+python deri_v5_pro_cli.py close-position \
   --symbol BTCUSD
 ```
 
 Remove some margin:
 
 ```bash
-python demo.py remove-margin \
+python deri_v5_pro_cli.py remove-margin \
   --margin-amount 5
 ```
 
 Remove the maximum available margin:
 
 ```bash
-python demo.py remove-margin \
+python deri_v5_pro_cli.py remove-margin \
   --all
 ```
 
 Inspect positions inside the active `pToken`:
 
 ```bash
-python demo.py positions
+python deri_v5_pro_cli.py positions
 ```
 
 If `--price-limit` is omitted for a futures symbol, `trade` and `close-position` derive it from the current dChain index price with `--slippage-pct` (default `5`).
@@ -213,10 +229,10 @@ Current routing rules in the demo:
 Manual overrides still work:
 
 ```bash
-python demo.py ... --zone main
-python demo.py ... --zone inno
-python demo.py ... --gateway-address 0x49601577be0f0f0a75c38349f38dd85e70accdb7
-python demo.py ... --gateway-index 1
+python deri_v5_pro_cli.py ... --zone main
+python deri_v5_pro_cli.py ... --zone inno
+python deri_v5_pro_cli.py ... --gateway-address 0x49601577be0f0f0a75c38349f38dd85e70accdb7
+python deri_v5_pro_cli.py ... --gateway-index 1
 ```
 
 `main` maps to `Main Zone`, and `inno` maps to `Inno Zone`.

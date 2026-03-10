@@ -1,0 +1,185 @@
+version: 1
+name: deri_v5_pro_basic_trading_actions
+mode: pro_only
+
+entrypoint:
+  file: deri_v5_pro_cli.py
+  invocation: python deri_v5_pro_cli.py
+  json_flag: --json
+
+output_contract:
+  success_envelope:
+    ok: true
+    command: "<subcommand>"
+    contract_version: 1
+    result: "<command-specific object>"
+  error_envelope:
+    ok: false
+    command: "<subcommand>"
+    contract_version: 1
+    error:
+      type: "<exception class>"
+      message: "<human-readable failure>"
+    captured_logs: "<optional list of suppressed progress lines>"
+  encoding_rules:
+    decimal_values: string
+    addresses: checksum strings
+    transaction_hashes: hex strings
+    user_operation_hashes: hex strings
+    large_ids:
+      - p_token_id
+      - returned as strings to avoid JSON integer precision loss
+
+state_files:
+  env: .env
+  session_key: .session_key.json
+  active_ptoken: .active_ptoken.json
+
+signers:
+  eoa:
+    material:
+      - ACCOUNT_PRIVATE
+    actions:
+      - init-p-token(create_new)
+      - add-margin
+  session_key:
+    material:
+      - SESSION_KEY_PRIVATE
+      - .session_key.json
+    actions:
+      - trade
+      - close-position
+  owner_via_smart_account:
+    material:
+      - ACCOUNT_PRIVATE
+    actions:
+      - remove-margin
+
+gas_model:
+  ichain:
+    chain: arbitrum_sepolia
+    payer: user_eoa
+  dchain:
+    payer: paymaster
+    user_requires_native_token: false
+
+routing:
+  create_new_p_token:
+    preferred_mode: symbol_driven
+    sources:
+      - live_graphql_symbol_listing
+    manual_overrides:
+      - zone
+      - gateway-address
+      - gateway-index
+  active_p_token_actions:
+    selection: use_saved_gateway_from_active_ptoken_state
+
+product_terms:
+  futures_aliases:
+    - futures
+    - perps
+    - perpetual futures
+  options_aliases:
+    - options
+    - option
+  power_aliases:
+    - power
+    - power perps
+  gamma_aliases:
+    - gamma
+    - gamma swap
+
+product_support:
+  futures:
+    supported: true
+    auto_price_limit: true
+  options:
+    supported: true
+    auto_price_limit: frontend_formula
+  power:
+    supported: true
+    auto_price_limit: false
+    requirement: caller must provide --price-limit
+  gamma:
+    supported: false
+    reason: requires 4 trade parameters; demo implements only the 2-parameter trade path
+
+commands:
+  init-p-token:
+    requires_active_ptoken: false
+    behaviors:
+      create_new:
+        required_args:
+          - --margin-token
+          - --margin-amount
+        optional_args:
+          - --symbol
+          - --category
+          - --zone
+          - --gateway-address
+          - --gateway-index
+      adopt_existing:
+        required_args:
+          - --existing-p-token-id
+    guardrails:
+      - fail if an active pToken already exists unless --replace-active is passed
+  status:
+    requires_active_ptoken: false
+    purpose: inspect account, smart account, balances, pools, and active pToken
+  positions:
+    requires_active_ptoken: true
+    optional_args:
+      - --symbol
+  add-margin:
+    requires_active_ptoken: true
+    required_args:
+      - --margin-amount
+  trade:
+    requires_active_ptoken: true
+    required_args:
+      - --symbol
+      - --trade-volume
+    optional_args:
+      - --category
+      - --price-limit
+      - --slippage-pct
+  close-position:
+    requires_active_ptoken: true
+    required_args:
+      - --symbol
+    semantics: offsetting trade equal to the negative of the current position volume
+    optional_args:
+      - --category
+      - --price-limit
+      - --slippage-pct
+  remove-margin:
+    requires_active_ptoken: true
+    mutually_exclusive_args:
+      - --margin-amount
+      - --all
+
+result_fields:
+  common:
+    - resolved.ichain_chain_id
+    - resolved.dchain_chain_id
+  trade_like:
+    - pool
+    - active_ptoken
+    - symbol
+    - smart_account
+    - session_key
+    - price_limit
+    - initial_position
+    - final_position
+  settlement:
+    - wallet_balance_before
+    - wallet_balance_after
+    - wallet_settlement_observed
+
+agent_rules:
+  - Prefer the CLI over reimplementing protocol logic.
+  - Prefer --json for all automated consumers.
+  - Do not create a new pToken when an active pToken already exists unless the user explicitly asks for replacement.
+  - Do not treat close-position as a separate protocol primitive.
+  - Do not infer automatic price-limit behavior for power or gamma.
